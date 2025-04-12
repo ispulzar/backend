@@ -1,0 +1,38 @@
+# Archivos de bytecode de Python generados
+__pycache__/
+*.py[cod]
+
+# Archivos de distribución generados
+dist/
+build/
+*.egg-info/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Archivos de registro y temporales
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Archivos de configuración específicos del IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de datos sensibles (si los tienes)
+*.env
+config.ini
+secrets.json
+
+# Archivos de pruebas
+.coverage
+htmlcov/
