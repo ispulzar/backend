@@ -161,15 +161,24 @@ async def subir_inventario(file: UploadFile = File(...)):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/inventario/")
 async def obtener_inventario():
     ultimo_inventario = inventario_collection.find_one(sort=[('_id', -1)])
     if not ultimo_inventario:
         return JSONResponse(content={"message": "No se encontró inventario"}, status_code=404)
     
+    # Convertir _id a string (aunque lo vamos a ignorar en la respuesta)
     ultimo_inventario["_id"] = str(ultimo_inventario["_id"])
-    return JSONResponse(content=jsonable_encoder(ultimo_inventario))
 
+    # Buscar la clave que empiece con "inventario_"
+    clave_inventario = next((key for key in ultimo_inventario.keys() if key.startswith("inventario_")), None)
+
+    if not clave_inventario:
+        return JSONResponse(content={"message": "No se encontró inventario válido"}, status_code=404)
+
+    # RESPONDER solo el inventario, no todo el objeto
+    return JSONResponse(content={clave_inventario: jsonable_encoder(ultimo_inventario[clave_inventario])})
 @app.get("/users/me")
 async def read_users_me(current_user: TokenData = Depends(get_current_user)):
     return {"email": current_user.email}
